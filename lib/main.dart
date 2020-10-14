@@ -1,4 +1,4 @@
-import 'package:chat_app_flutter/Screens/signIn.dart';
+import 'package:chat_app_flutter/Screens/sign_in.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,7 +13,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.purple,
+        primaryColor: Colors.purple,
+        accentColor: Colors.purple,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: SignIn(),
