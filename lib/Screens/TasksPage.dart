@@ -20,80 +20,9 @@ class _TasksPageState extends State<TasksPage> {
   var taskcollections = Firestore.instance.collection('tasks');
   String task;
 
-  void showdialog(bool isUpdate, DocumentSnapshot ds) {
-    GlobalKey<FormState> formkey = GlobalKey<FormState>();
-
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: isUpdate ? Text("Update Todo") : Text("Add Todo"),
-            content: Form(
-              key: formkey,
-              autovalidate: true,
-              child: TextFormField(
-                autofocus: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: "Task",
-                ),
-                validator: (_val) {
-                  if (_val.isEmpty) {
-                    return "Can't Be Empty";
-                  } else {
-                    return null;
-                  }
-                },
-                onChanged: (_val) {
-                  task = _val;
-                },
-              ),
-            ),
-            actions: <Widget>[
-              RaisedButton(
-                color: Colors.purple,
-                onPressed: () {
-                  if (formkey.currentState.validate()) {
-                    formkey.currentState.save();
-                    if (isUpdate) {
-                      taskcollections
-                          .document(uid)
-                          .collection('task')
-                          .document(ds.documentID)
-                          .updateData({
-                        'task': task,
-                        'time': DateTime.now(),
-                      });
-                    } else {
-                      //  insert
-                      taskcollections.document(uid).collection('task').add({
-                        'task': task,
-                        'time': DateTime.now(),
-                      });
-                    }
-                    Navigator.pop(context);
-                  }
-                },
-                child: Text(
-                  "Add",
-                  style: TextStyle(
-                    fontFamily: "tepeno",
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ],
-          );
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => showdialog(false, null),
-        child: Icon(Icons.add),
-      ),
       appBar: AppBar(
         title: Text(
           "Tasks",
@@ -116,7 +45,7 @@ class _TasksPageState extends State<TasksPage> {
         ],
       ),
       body: Container(
-        child: Text(uid.email),
+        child: Text(uid),
       ),
     );
   }
