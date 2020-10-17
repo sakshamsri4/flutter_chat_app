@@ -1,9 +1,11 @@
-import 'package:chat_app_flutter/Screens/TasksPage.dart';
-import 'package:chat_app_flutter/Screens/sign_in.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:chat_app_flutter/Screens/login_screen.dart';
+import 'package:chat_app_flutter/services/constant.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -13,36 +15,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Flutter Chat',
       theme: ThemeData(
         primarySwatch: Colors.purple,
-        primaryColor: Colors.purple,
+        primaryColor: primaryColor,
         accentColor: Colors.purple,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: SignIn(),
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<FirebaseUser>(
-      future: FirebaseAuth.instance.currentUser(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          FirebaseUser user = snapshot.data;
-          return TasksPage(uid: user.uid);
-        } else {
-          return SignIn();
-        }
-      },
+      home: LoginScreen(
+        title: 'Flutter Chat',
+      ),
     );
   }
 }
