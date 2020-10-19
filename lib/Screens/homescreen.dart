@@ -16,6 +16,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+
+
+
 class HomeScreen extends StatefulWidget {
   final String currentUserId;
 
@@ -29,10 +32,9 @@ class HomeScreenState extends State<HomeScreen> {
   HomeScreenState({Key key, @required this.currentUserId});
 
   final String currentUserId;
-
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  FlutterLocalNotificationsPlugin();
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   bool isLoading = false;
@@ -50,21 +52,23 @@ class HomeScreenState extends State<HomeScreen> {
 
   void registerNotification() {
     firebaseMessaging.requestNotificationPermissions();
+
     firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) {
-      print('onMessage:$message');
+      print('onMessage: $message');
       Platform.isAndroid
           ? showNotification(message['notification'])
           : showNotification(message['aps']['alert']);
       return;
     }, onResume: (Map<String, dynamic> message) {
-      print('onResme:$message');
+      print('onResume: $message');
       return;
     }, onLaunch: (Map<String, dynamic> message) {
-      print('onLaunch:$message');
+      print('onLaunch: $message');
       return;
     });
+
     firebaseMessaging.getToken().then((token) {
-      print('token:$token');
+      print('token: $token');
       FirebaseFirestore.instance
           .collection('users')
           .doc(currentUserId)
@@ -76,10 +80,10 @@ class HomeScreenState extends State<HomeScreen> {
 
   void configLocalNotification() {
     var initializationSettingsAndroid =
-        new AndroidInitializationSettings('app_icon');
-    var initializationSettingsIos = new IOSInitializationSettings();
+    new AndroidInitializationSettings('app_icon');
+    var initializationSettingsIOS = new IOSInitializationSettings();
     var initializationSettings = new InitializationSettings(
-        initializationSettingsAndroid, initializationSettingsIos);
+        initializationSettingsAndroid, initializationSettingsIOS);
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
@@ -132,10 +136,10 @@ class HomeScreenState extends State<HomeScreen> {
         builder: (BuildContext context) {
           return SimpleDialog(
             contentPadding:
-                EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
+            EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
             children: <Widget>[
               Container(
-                color: Colors.purple,
+                color: themeColor,
                 margin: EdgeInsets.all(0.0),
                 padding: EdgeInsets.only(bottom: 10.0, top: 10.0),
                 height: 100.0,
@@ -150,7 +154,7 @@ class HomeScreenState extends State<HomeScreen> {
                       margin: EdgeInsets.only(bottom: 10.0),
                     ),
                     Text(
-                      'Exit App',
+                      'Exit app',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 18.0,
@@ -180,7 +184,7 @@ class HomeScreenState extends State<HomeScreen> {
                       'CANCEL',
                       style: TextStyle(
                           color: primaryColor, fontWeight: FontWeight.bold),
-                    ),
+                    )
                   ],
                 ),
               ),
@@ -201,7 +205,7 @@ class HomeScreenState extends State<HomeScreen> {
                       'YES',
                       style: TextStyle(
                           color: primaryColor, fontWeight: FontWeight.bold),
-                    ),
+                    )
                   ],
                 ),
               ),
@@ -220,15 +224,18 @@ class HomeScreenState extends State<HomeScreen> {
     this.setState(() {
       isLoading = true;
     });
+
     await FirebaseAuth.instance.signOut();
     await googleSignIn.disconnect();
     await googleSignIn.signOut();
+
     this.setState(() {
       isLoading = false;
     });
+
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => MyApp()),
-        (Route<dynamic> route) => false);
+            (Route<dynamic> route) => false);
   }
 
   @override
@@ -270,10 +277,11 @@ class HomeScreenState extends State<HomeScreen> {
       body: WillPopScope(
         child: Stack(
           children: <Widget>[
+            // List
             Container(
               child: StreamBuilder(
                 stream:
-                    FirebaseFirestore.instance.collection('users').snapshots(),
+                FirebaseFirestore.instance.collection('users').snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Center(
@@ -292,6 +300,8 @@ class HomeScreenState extends State<HomeScreen> {
                 },
               ),
             ),
+
+            // Loading
             Positioned(
               child: isLoading ? const Loading() : Container(),
             )
@@ -313,26 +323,26 @@ class HomeScreenState extends State<HomeScreen> {
               Material(
                 child: document.data()['photoUrl'] != null
                     ? CachedNetworkImage(
-                        placeholder: (context, url) => Container(
-                          child: CircularProgressIndicator(
-                            strokeWidth: 1.0,
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(themeColor),
-                          ),
-                          width: 50.0,
-                          height: 50.0,
-                          padding: EdgeInsets.all(15.0),
-                        ),
-                        imageUrl: document.data()['photoUrl'],
-                        width: 50.0,
-                        height: 50.0,
-                        fit: BoxFit.cover,
-                      )
+                  placeholder: (context, url) => Container(
+                    child: CircularProgressIndicator(
+                      strokeWidth: 1.0,
+                      valueColor:
+                      AlwaysStoppedAnimation<Color>(themeColor),
+                    ),
+                    width: 50.0,
+                    height: 50.0,
+                    padding: EdgeInsets.all(15.0),
+                  ),
+                  imageUrl: document.data()['photoUrl'],
+                  width: 50.0,
+                  height: 50.0,
+                  fit: BoxFit.cover,
+                )
                     : Icon(
-                        Icons.account_circle,
-                        size: 50.0,
-                        color: greyColor,
-                      ),
+                  Icons.account_circle,
+                  size: 50.0,
+                  color: greyColor,
+                ),
                 borderRadius: BorderRadius.all(Radius.circular(25.0)),
                 clipBehavior: Clip.hardEdge,
               ),
@@ -342,7 +352,7 @@ class HomeScreenState extends State<HomeScreen> {
                     children: <Widget>[
                       Container(
                         child: Text(
-                          'Nickname:${document.data()['nickname']}',
+                          'Nickname: ${document.data()['nickname']}',
                           style: TextStyle(color: primaryColor),
                         ),
                         alignment: Alignment.centerLeft,
@@ -350,12 +360,12 @@ class HomeScreenState extends State<HomeScreen> {
                       ),
                       Container(
                         child: Text(
-                          'About me:${document.data()['aboutMe'] ?? 'Not available'}',
+                          'About me: ${document.data()['aboutMe'] ?? 'Not available'}',
                           style: TextStyle(color: primaryColor),
                         ),
                         alignment: Alignment.centerLeft,
                         margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
-                      ),
+                      )
                     ],
                   ),
                   margin: EdgeInsets.only(left: 20.0),
@@ -368,23 +378,24 @@ class HomeScreenState extends State<HomeScreen> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => Chat(
-                          peerId: document.id,
-                          peerAvatar: document.data()['photoUrl'],
-                        )));
+                      peerId: document.id,
+                      peerAvatar: document.data()['photoUrl'],
+                    )));
           },
           color: greyColor2,
           padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         ),
+        margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
       );
     }
   }
 }
 
 class Choice {
+  const Choice({this.title, this.icon});
+
   final String title;
   final IconData icon;
-
-  const Choice({this.title, this.icon});
 }

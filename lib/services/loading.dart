@@ -1,8 +1,8 @@
 import 'package:chat_app_flutter/services/constant.dart';
 import 'package:flutter/material.dart';
-
 class Loading extends StatelessWidget {
   const Loading();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,3 +15,4 @@ class Loading extends StatelessWidget {
     );
   }
 }
+

@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app_flutter/services/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
-
 class FullPhoto extends StatelessWidget {
   final String url;
 
