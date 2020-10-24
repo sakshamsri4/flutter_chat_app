@@ -38,7 +38,8 @@ class _SearchState extends State<Search> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => ConversationScreen(chatRoomId)));
+              builder: (context) => ConversationScreen(
+                  userName: userName, chatRoomId: chatRoomId)));
     } else {
       print("You can't send message to yourself");
     }
@@ -103,7 +104,7 @@ class _SearchState extends State<Search> {
         child: Column(
           children: <Widget>[
             Container(
-              color: Color(0x54FFFFFF),
+              color: Colors.black54,
               padding: EdgeInsets.symmetric(horizontal: 25, vertical: 16),
               child: Row(
                 children: <Widget>[

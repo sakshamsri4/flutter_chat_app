@@ -35,9 +35,10 @@ class _MyAppState extends State<MyApp> {
       title: 'Flutter Chat',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          primaryColor: Color(0xff145C9E),
-          scaffoldBackgroundColor: Color(0xff1F1F1f),
-          primarySwatch: Colors.blue,
+          //primaryColor: Color(0xff145C9E),
+          //scaffoldBackgroundColor: Color(0xff1F1F1f),
+          scaffoldBackgroundColor: Colors.white,
+          primarySwatch: Colors.cyan,
           visualDensity: VisualDensity.adaptivePlatformDensity),
       home: userIsLoggedIn != null
           ? userIsLoggedIn ? ChatRoom() : Authenticate()

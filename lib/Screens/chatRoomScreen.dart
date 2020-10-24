@@ -44,13 +44,13 @@ class _ChatRoomState extends State<ChatRoom> {
       setState(() {
         chatRoomStream = val;
       });
+      setState(() {});
     });
   }
 
   @override
   void initState() {
     getUserInfo();
-
     super.initState();
   }
 
@@ -58,9 +58,15 @@ class _ChatRoomState extends State<ChatRoom> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset(
-          "assets/images/logo.png",
-          height: 50.0,
+        title: Container(
+          child: Text(
+            'Chattttty',
+            style: TextStyle(
+              fontSize: 25,
+              color: Colors.blueGrey,
+              fontFamily: "Roboto",
+            ),
+          ),
         ),
         actions: <Widget>[
           GestureDetector(
@@ -98,10 +104,11 @@ class ChatRoomTile extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ConversationScreen(chatRoomId)));
+                builder: (context) => ConversationScreen(
+                    userName: userName, chatRoomId: chatRoomId)));
       },
       child: Container(
-        color: Colors.black54,
+        //    color: Colors.black54,
         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         child: Row(
           children: <Widget>[
@@ -110,7 +117,7 @@ class ChatRoomTile extends StatelessWidget {
               width: 40,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                  color: Colors.blue, borderRadius: BorderRadius.circular(40)),
+                  color: Colors.cyan, borderRadius: BorderRadius.circular(40)),
               child: Text(
                 "${userName.substring(0, 1).toUpperCase()}",
                 style: mediumTextStyle(),

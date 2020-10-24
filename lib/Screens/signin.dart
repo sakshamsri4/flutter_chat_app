@@ -51,7 +51,7 @@ class _SignInState extends State<SignIn> {
               context, MaterialPageRoute(builder: (context) => ChatRoom()));
         }
         if (value == null) {
-          print("Value is null");
+          print("Email  or password is incorrect");
         }
       });
     }
@@ -70,6 +70,15 @@ class _SignInState extends State<SignIn> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                Container(
+                  child: Text(
+                    'Chattttty',
+                    style: TextStyle(
+                      fontSize: 40,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20.0),
                 Form(
                   key: formKey,
                   child: Column(
@@ -124,10 +133,11 @@ class _SignInState extends State<SignIn> {
                     width: MediaQuery.of(context).size.width,
                     padding: EdgeInsets.symmetric(vertical: 20.0),
                     decoration: BoxDecoration(
-                        gradient: LinearGradient(colors: [
-                          const Color(0xff007EF4),
-                          const Color(0xff2A75BC)
-                        ]),
+                        color: Colors.cyan,
+                        // gradient: LinearGradient(colors: [
+                        // const Color(0xff007EF4),
+                        //  const Color(0xff2A75BC)
+                        // ]),
                         borderRadius: BorderRadius.circular(30)),
                     child: Text(
                       'Sign In',
@@ -141,7 +151,7 @@ class _SignInState extends State<SignIn> {
                   width: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.symmetric(vertical: 20.0),
                   decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Color(0xff007ef4),
                       borderRadius: BorderRadius.circular(30)),
                   child: Text(
                     'Sign In With Google',
@@ -166,7 +176,7 @@ class _SignInState extends State<SignIn> {
                           "Register Now",
                           style: TextStyle(
                               fontSize: 17,
-                              color: Colors.white,
+                              color: Colors.black,
                               decoration: TextDecoration.underline),
                         ),
                       ),

@@ -49,8 +49,8 @@ class DatabaseMethods {
     });
   }
 
-  getChatRooms(String userName) {
-    return Firestore.instance
+  getChatRooms(String userName) async {
+    return await Firestore.instance
         .collection("ChatRoom")
         .where("users", arrayContains: userName)
         .snapshots();
